@@ -6,41 +6,27 @@ interface Task {
   completed: boolean;
 }
 
+interface User {
+  uid: string,
+  email: string | null,
+  displayName: string | null,
+  photoURL: string | null
+}
+
 interface TaskContextType {
   tasks: Task[];
-  addTask: (title: string) => void;
-  toggleTask: (id: number) => void;
-  deleteTask: (id: number) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
 }
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
 export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
-
-  const addTask = (title: string) => {
-    const newTask: Task = {
-      id: Date.now(),
-      title,
-      completed: false,
-    };
-    setTasks([...tasks, newTask]);
-  };
-
-  const toggleTask = (id: number) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
-  };
-
-  const deleteTask = (id: number) => {
-    setTasks(tasks.filter((task) => task.id !== id));
-  };
+  const [user, setUser] = useState<User | null>(null);
 
   return (
-    <TaskContext.Provider value={{ tasks, addTask, toggleTask, deleteTask }}>
+    <TaskContext.Provider value={{ tasks, user, setUser }}>
       {children}
     </TaskContext.Provider>
   );

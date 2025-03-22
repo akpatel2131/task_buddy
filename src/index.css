@@ -1,3 +1,56 @@
+:root {
+  /* Primary Colors */
+  --primary-purple: #6941C6;
+  --primary-pink: #7a0691;
+  --primary-dark: #101828;
+  --primary-gray: #475467;
+  
+  /* Background Colors */
+  --bg-white: #FFFFFF;
+  --bg-light-gray: #F9FAFB;
+  --bg-dark: #4a4f5a;
+  --bg-blue: #61dafb;
+  --bg-blue-hover: #4fa8c7;
+  
+  /* Border Colors */
+  --border-gray: #D0D5DD;
+  --border-dark: #4a4f5a;
+  
+  /* Text Colors */
+  --text-dark: #101828;
+  --text-gray: #475467;
+  --text-light: #344054;
+  --text-white: #FFFFFF;
+  --text-placeholder: #a0a0a0;
+  --text-dark-bg: #282c34;
+  --text-black: #000000;
+
+  /* Sizes */
+  --size-4: 4px;
+  --size-8: 8px;
+  --size-10: 10px;
+  --size-12: 12px;
+  --size-14: 14px;
+  --size-16: 16px;
+  --size-18: 18px;
+  --size-20: 20px;
+  --size-24: 24px;
+  --size-26: 26px;
+  --size-28: 28px;
+  --size-30: 30px;
+  --size-32: 32px;
+  --size-34: 34px;
+  --size-36: 36px;
+
+  --full-size: 100%
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

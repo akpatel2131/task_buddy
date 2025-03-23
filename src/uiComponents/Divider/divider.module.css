@@ -1,0 +1,8 @@
+.root {
+  position: relative;
+  background-color: var(--color-border);
+  border: 0;
+  width: var(--full-size);
+  margin: var(--size-12) 0;
+  height: 1px;
+}

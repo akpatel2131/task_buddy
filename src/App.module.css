@@ -1,17 +1,21 @@
 .app {
   text-align: center;
+  background-color: var(--color-white);
+  min-height: 100vh;
 }
 
-.appHeader {
-  background-color: #282c34;
-  min-height: 100vh;
+.header {
+  background-color: var(--color-dark);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
-  padding: 20px;
+  color: var(--color-white);
+}
+
+.link {
+  color: var(--color-blue);
 }
 
 .addTaskForm {
@@ -31,10 +35,10 @@
 .addTaskForm button {
   padding: 8px 16px;
   font-size: 16px;
-  background-color: #61dafb;
+  background-color: var(--color-blue);
   border: none;
   border-radius: 4px;
-  color: #282c34;
+  color: var(--color-dark);
   cursor: pointer;
 }
 
@@ -49,12 +53,12 @@
   align-items: center;
   gap: 10px;
   padding: 10px;
-  background-color: #3b4049;
+  background-color: var(--color-dark);
   margin: 5px 0;
   border-radius: 4px;
 }
 
-.taskItem input[type="checkbox"] {
+.taskItem input[type='checkbox'] {
   width: 20px;
   height: 20px;
 }
@@ -71,7 +75,7 @@
   background-color: #ff4444;
   border: none;
   border-radius: 4px;
-  color: white;
+  color: var(--color-white);
   cursor: pointer;
 }
 
@@ -82,4 +86,4 @@
 .subtitle {
   font-size: 24px;
   margin-bottom: 20px;
-} 
+}

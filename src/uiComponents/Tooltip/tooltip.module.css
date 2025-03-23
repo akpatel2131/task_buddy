@@ -1,0 +1,44 @@
+.tooltipContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.trigger {
+  cursor: pointer;
+  user-select: none;
+}
+
+.tooltipContent {
+  position: absolute;
+  top: calc(100% + var(--size-4));
+  left: 0%;
+  background-color: var(--color-white);
+  border-radius: var(--size-16);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  min-width: 150px;
+  z-index: 1;
+  padding: var(--size-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-12);
+}
+
+.tooltipContent button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.option {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: var(--color-dark);
+  font-size: var(--size-14);
+  padding: var(--size-xsmall) var(--size-normal);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.option:hover {
+  background-color: var(--color-light-gray);
+}

@@ -1,7 +1,7 @@
 .loginContainer {
   display: flex;
   min-height: 100vh;
-  background-color: var(--bg-white);
+  background-color: var(--color-white);
 }
 
 .loginContent {
@@ -30,14 +30,14 @@
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: var(--size-24);
-  color: var(--primary-pink);
+  color: var(--color-pink);
 }
 
 .subtitle {
   font-family: 'Inter', sans-serif;
   font-size: var(--size-16);
   line-height: var(--size-28);
-  color: var(--text-gray);
+  color: var(--color-gray);
   margin: 0;
 }
 
@@ -48,15 +48,15 @@
   gap: var(--size-12);
   width: var(--full-size);
   padding: var(--size-16) var(--size-28);
-  background: var(--text-black);
-  border: 1px solid var(--border-gray);
+  background: var(--color-black);
+  border: 1px solid var(--color-border);
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: var(--size-8);
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: var(--size-16);
   line-height: var(--size-24);
-  color: var(--text-white);
+  color: var(--color-white);
   border-radius: var(--size-24);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -88,7 +88,7 @@
   .previewSection {
     display: none;
   }
-  
+
   .loginContent {
     max-width: var(--full-size);
   }
@@ -98,14 +98,14 @@
   .loginContent {
     padding: var(--size-24);
   }
-  
+
   .title {
     font-size: var(--size-24);
     line-height: var(--size-32);
   }
-  
+
   .subtitle {
     font-size: var(--size-16);
     line-height: var(--size-24);
   }
-} 
+}

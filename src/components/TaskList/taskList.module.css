@@ -1,0 +1,176 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-16);
+  margin-top: var(--size-34);
+  width: var(--full-size);
+}
+
+.addTaskContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-16);
+}
+
+.taskListHeader {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+}
+
+.taskListHeader button {
+  width: fit-content;
+  cursor: pointer;
+}
+
+.taskListHeader input {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  padding: var(--size-8);
+  outline: none;
+}
+
+.taskListHeader div {
+  font-size: var(--size-14);
+  color: var(--color-gray);
+  font-weight: 600;
+}
+
+.collapseContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-16);
+}
+
+.taskListHeaderTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--size-8);
+}
+
+.statusButton {
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  padding: var(--size-6) var(--size-8);
+  border-radius: var(--size-4);
+}
+
+.menuButton {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: var(--size-16);
+}
+
+.menuButton button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.addTaskListFooter {
+  display: flex;
+  gap: var(--size-16);
+  padding: 0 var(--size-8);
+}
+
+.menuTooltipContent {
+  left: auto;
+  right: 0;
+}
+
+.addButton,
+.addTaskButton {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+  border: none;
+  padding: var(--size-4) var(--size-8);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  transform: scale(1.05);
+}
+
+.addTaskButton {
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  padding: var(--size-8) var(--size-16);
+  border-radius: var(--size-16);
+}
+
+.cancelButton {
+  background-color: transparent;
+  color: var(--color-gray);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.addDateButton {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+  background-color: transparent;
+  color: var(--color-gray);
+  border: 1px solid var(--color-gray);
+  padding: var(--size-4) var(--size-10);
+  border-radius: var(--size-16);
+}
+
+.addCategoryButton {
+  display: flex;
+  align-items: center;
+  padding: var(--size-6);
+  border-radius: var(--size-20);
+  border: 1px solid var(--color-gray);
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.addCategoryIcon,
+.checkIcon {
+  width: var(--size-20);
+  height: var(--size-20);
+}
+
+.inProgressIcon {
+  fill: var(--color-placeholder);
+}
+
+.completedIcon {
+  fill: var(--color-green);
+}
+
+.addDateIcon {
+  width: var(--size-16);
+  height: var(--size-16);
+}
+
+.addTaskIcon {
+  width: var(--size-16);
+  height: var(--size-16);
+}
+
+.divider {
+  margin: 0;
+}
+
+.taskText {
+  display: flex;
+  align-items: center;
+}
+
+.toDoPanel {
+  background-color: var(--color-light-pink);
+}
+
+.inProgressPanel {
+  background-color: var(--color-light-blue);
+}
+
+.completedPanel {
+  background-color: var(--color-light-green);
+}

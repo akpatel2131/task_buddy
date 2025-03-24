@@ -1,0 +1,105 @@
+.taskBoard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--size-24);
+  padding: var(--size-24);
+}
+
+.taskColumn {
+  background-color: var(--color-light-gray);
+  border-radius: var(--size-8);
+  padding: var(--size-16);
+  min-height: 400px;
+  max-width: 400px;
+}
+
+.columnHeader {
+  margin-bottom: var(--size-16);
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: var(--size-4) var(--size-12);
+  border-radius: var(--size-16);
+  font-size: var(--size-12);
+  font-weight: 500;
+}
+
+.todoStatus {
+  background-color: #f9f5ff;
+  color: var(--color-purple);
+}
+
+.inProgressStatus {
+  background-color: #eff8ff;
+  color: #2e90fa;
+}
+
+.completedStatus {
+  background-color: #ecfdf3;
+  color: #12b76a;
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-16);
+}
+
+.taskCard {
+  background-color: var(--color-white);
+  border-radius: var(--size-8);
+  padding: var(--size-16);
+}
+
+.taskHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--size-16);
+}
+
+.taskTitle {
+  font-size: var(--size-14);
+  font-weight: 500;
+  color: var(--color-dark);
+  margin: 0;
+}
+
+.menuButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-gray);
+}
+
+.taskFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--size-12);
+}
+
+.category {
+  color: var(--color-gray);
+}
+
+.dueDate {
+  color: var(--color-gray);
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: var(--color-gray);
+  text-align: center;
+  font-size: var(--size-14);
+}
+
+.menuTooltipContent {
+  left: auto;
+  right: 0;
+}

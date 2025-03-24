@@ -1,0 +1,11 @@
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--full-size);
+  height: var(--full-size);
+  min-height: var(--size-200);
+  background-color: var(--color-white);
+  border-radius: var(--size-8);
+  padding: var(--size-16);
+}

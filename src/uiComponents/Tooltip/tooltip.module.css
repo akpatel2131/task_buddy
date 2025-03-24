@@ -37,6 +37,7 @@
   padding: var(--size-xsmall) var(--size-normal);
   font-weight: 500;
   text-transform: uppercase;
+  text-align: left;
 }
 
 .option:hover {

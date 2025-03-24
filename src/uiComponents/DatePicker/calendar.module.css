@@ -1,0 +1,105 @@
+.datePickerContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.calendar {
+  position: absolute;
+  top: calc(100% + var(--size-4));
+  left: 0;
+  z-index: 1000;
+}
+
+.root {
+  --rdp-cell-size: var(--size-36);
+  --rdp-accent-color: var(--color-purple);
+  --rdp-background-color: var(--color-light-pink);
+  --rdp-outline: 2px solid var(--color-purple);
+  --rdp-outline-selected: 2px solid var(--color-purple);
+
+  background-color: var(--color-white);
+  border-radius: var(--size-8);
+  margin: 0;
+  padding: var(--size-8);
+}
+
+.root :global(.rdp-button:hover:not([disabled])) {
+  background-color: var(--colo r-light-pink);
+}
+
+.root :global(.rdp-day_selected) {
+  background-color: var(--color-purple);
+  color: var(--color-white);
+}
+
+.root :global(.rdp-selected) {
+  & :global(.rdp-day_button) {
+    background-color: var(--color-pink);
+    color: var(--color-white);
+    border: none;
+    height: 25px;
+    width: 24px;
+  }
+}
+
+.root :global(.rdp-day_selected:hover) {
+  background-color: var(--color-pink);
+}
+
+.root :global(.rdp-caption_dropdowns) {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--size-8);
+}
+
+.root :global(.rdp-dropdown) {
+  appearance: none;
+  padding: var(--size-4) var(--size-8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--size-4);
+  background-color: var(--color-white);
+  cursor: pointer;
+  font-size: var(--size-14);
+}
+
+.root :global(.rdp-dropdown:hover) {
+  border-color: var(--color-purple);
+}
+
+.root :global(.rdp-nav) {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--size-4) 0;
+}
+
+.root :global(.rdp-nav_button) {
+  color: var(--color-gray);
+  cursor: pointer;
+  padding: var(--size-4);
+  border: none;
+  background: none;
+}
+
+.root :global(.rdp-nav_button:hover) {
+  color: var(--color-purple);
+}
+
+.root :global(.rdp-head_cell) {
+  font-size: var(--size-12);
+  font-weight: 600;
+  color: var(--color-gray);
+  text-transform: uppercase;
+}
+
+.root :global(.rdp-cell) {
+  text-align: center;
+}
+
+.root :global(.rdp-day) {
+  width: var(--size-32);
+  height: var(--size-32);
+  font-size: var(--size-14);
+  border-radius: var(--size-4);
+  color: var(--color-dark);
+}

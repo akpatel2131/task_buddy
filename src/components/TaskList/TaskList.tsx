@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Collapse from '../../uiComponents/Collapse/Collapse';
 import Divider from '../../uiComponents/Divider/Divider';
 import styles from './taskList.module.css';
@@ -11,6 +11,9 @@ import {
 } from '@tabler/icons-react';
 import Tooltip from '../../uiComponents/Tooltip/Tooltip';
 import clsx from 'clsx';
+import { Task, useTaskContext } from '../../context/TaskContext';
+import Calender from '../../uiComponents/DatePicker/Calender';
+import Loader from '../../uiComponents/Loader/Loader';
 
 const HeaderComponent = ({ title, totalTaskCount }: { title: string; totalTaskCount: number }) => {
   return (
@@ -22,36 +25,72 @@ const HeaderComponent = ({ title, totalTaskCount }: { title: string; totalTaskCo
 };
 
 const ChildComponent = ({
-  title,
-  dueDate,
-  status,
-  category,
+  task,
+  handleDeleteTask,
+  setElementData,
+  setIsModalOpen,
 }: {
-  title: string;
-  dueDate: string;
-  status: string;
-  category: string;
+  task: Task;
+  handleDeleteTask: (taskId: string) => void;
+  setElementData: (task: Task) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
 }) => {
+  const { updateTask } = useTaskContext();
+
+  const handleStatusChange = useCallback(
+    async (value: string) => {
+      if (value === 'To-Do') value = 'TODO';
+      else if (value === 'In Progress') value = 'IN-PROGRESS';
+      else value = 'COMPLETED';
+
+      const data = {
+        name: task.name,
+        due_date: task.due_date,
+        status: value,
+        category: task.category,
+        activity: task.activity,
+        userId: task.userId,
+      };
+
+      if (task.id) await updateTask(task.id, data);
+    },
+    [updateTask, task]
+  );
+
   return (
     <div className={styles.taskListHeader}>
       <div className={styles.taskListHeaderTitle}>
         <input type="checkbox" />
         <IconCircleCheckFilled
           className={clsx(styles.checkIcon, styles.inProgressIcon, {
-            [styles.completedIcon]: status === 'Completed',
+            [styles.completedIcon]: task.status === 'COMPLETED',
           })}
         />
-        {title}
+        <span className={clsx({ [styles.completeText]: task.status === 'COMPLETED' })}>
+          {task.name}
+        </span>
       </div>
-      <div className={styles.taskText}>{dueDate}</div>
-      <Tooltip options={['To-Do', 'In Progress', 'Completed']}>
-        <button className={styles.statusButton}>{status}</button>
+      <div className={styles.taskText}>{task.due_date}</div>
+      <Tooltip
+        options={['To-Do', 'In Progress', 'Completed']}
+        onSelect={(value) => handleStatusChange(value)}
+      >
+        <button className={styles.statusButton}>{task.status}</button>
       </Tooltip>
-      <div className={styles.taskText}>{category}</div>
+      <div className={styles.taskText}>{task.category}</div>
       <Tooltip
         options={['Edit', 'Delete']}
         className={styles.menuButton}
         innerClassName={{ tooltipContent: styles.menuTooltipContent }}
+        onSelect={(option) => {
+          if (option === 'Delete' && task.id) {
+            handleDeleteTask(task.id);
+          }
+          if (option === 'Edit') {
+            setElementData(task);
+            setIsModalOpen(true);
+          }
+        }}
       >
         <button>
           <IconDots stroke={1.5} />
@@ -63,34 +102,105 @@ const ChildComponent = ({
 
 const AddTaskComponent = () => {
   const [showInput, setShowInput] = useState(false);
+  const { createTask, user } = useTaskContext();
+  const defaultFormData = {
+    name: '',
+    due_date: '',
+    status: '',
+    category: '',
+    activity: [],
+    userId: user?.uid || '',
+  };
+
+  const [formData, setFormData] = useState<Task>(defaultFormData);
+
+  const handleAddTask = () => {
+    createTask(formData);
+    setShowInput(false);
+    setFormData(defaultFormData);
+  };
+
+  const handleSelectOption = (value: string, option: string) => {
+    if (option === 'status') {
+      if (value === 'To-Do') {
+        value = 'TODO';
+      }
+      if (value === 'In Progress') {
+        value = 'IN-PROGRESS';
+      }
+      if (value === 'Completed') {
+        value = 'COMPLETED';
+      }
+    }
+
+    const data = {
+      ...formData,
+      [option]: value,
+    };
+
+    setFormData(data);
+  };
 
   return (
     <>
       {showInput ? (
         <div className={styles.addTaskContainer}>
           <div className={styles.taskListHeader}>
-            <input type="text" placeholder="Task Title" className={styles.addTaskInput} />
-            <button className={styles.addDateButton}>
-              <IconCalendar className={styles.addDateIcon} />
-              Add Date
-            </button>
-            <Tooltip options={['To-Do', 'In Progress', 'Completed']}>
-              <button className={styles.addCategoryButton}>
-                <IconPlus className={styles.addCategoryIcon} />
+            <input
+              type="text"
+              placeholder="Task Title"
+              className={styles.addTaskInput}
+              onChange={(event) => setFormData({ ...formData, name: event.target.value })}
+            />
+            <Calender
+              selectedDate={formData.due_date}
+              onChange={(date) => handleSelectOption(date, 'due_date')}
+              minDate={new Date().toISOString().split('T')[0]}
+            >
+              <button className={styles.addDateButton}>
+                <IconCalendar className={styles.addDateIcon} />
+                Add Date
               </button>
-            </Tooltip>
-            <Tooltip options={['Work', 'Personal', 'Other']}>
-              <button className={styles.addCategoryButton}>
-                <IconPlus className={styles.addCategoryIcon} />
-              </button>
-            </Tooltip>
+            </Calender>
+            {formData.status ? (
+              <div className={styles.formDataValue}>{formData.status}</div>
+            ) : (
+              <Tooltip
+                options={['To-Do', 'In Progress', 'Completed']}
+                onSelect={(value) => {
+                  handleSelectOption(value, 'status');
+                }}
+              >
+                <button className={styles.addCategoryButton}>
+                  <IconPlus className={styles.addCategoryIcon} />
+                </button>
+              </Tooltip>
+            )}
+            {formData.category ? (
+              <div className={styles.formDataValue}>{formData.category}</div>
+            ) : (
+              <Tooltip
+                options={['Work', 'Personal', 'Other']}
+                onSelect={(value) => handleSelectOption(value, 'category')}
+              >
+                <button className={styles.addCategoryButton}>
+                  <IconPlus className={styles.addCategoryIcon} />
+                </button>
+              </Tooltip>
+            )}
           </div>
           <div className={styles.addTaskListFooter}>
-            <button className={styles.addTaskButton}>
+            <button className={styles.addTaskButton} onClick={handleAddTask}>
               Add
               <IconCornerDownLeft className={styles.addTaskIcon} />
             </button>
-            <button className={styles.cancelButton} onClick={() => setShowInput(false)}>
+            <button
+              className={styles.cancelButton}
+              onClick={() => {
+                setShowInput(false);
+                setFormData(defaultFormData);
+              }}
+            >
               Cancel
             </button>
           </div>
@@ -106,13 +216,42 @@ const AddTaskComponent = () => {
   );
 };
 
-export default function TaskList() {
+export const EmptyTaskList = ({ status }: { status: string }) => {
+  return <div className={styles.emptyTaskList}>No Tasks in {status}</div>;
+};
+
+export default function TaskList({
+  tasks,
+  handleDeleteTask,
+  setElementData,
+  setIsModalOpen,
+}: {
+  tasks: Task[];
+  handleDeleteTask: (taskId: string) => void;
+  setElementData: (task: Task) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
+}) {
+  const { loading } = useTaskContext();
+  const toDoTasks = tasks.filter((task) => task.status === 'TODO');
+  const inProgressTasks = tasks.filter((task) => task.status === 'IN-PROGRESS');
+  const completedTasks = tasks.filter((task) => task.status === 'COMPLETED');
+
   const collapseItems = [
     {
-      header: <HeaderComponent title="TODO" totalTaskCount={10} />,
+      header: <HeaderComponent title="TODO" totalTaskCount={toDoTasks.length} />,
       children: [
         <AddTaskComponent />,
-        <ChildComponent title="Task 1" dueDate="2021-01-01" status="To-Do" category="Work" />,
+        ...(toDoTasks.length === 0
+          ? [<EmptyTaskList status="To-Do" />]
+          : toDoTasks.map((task) => (
+              <ChildComponent
+                key={task.id}
+                task={task}
+                handleDeleteTask={handleDeleteTask}
+                setElementData={setElementData}
+                setIsModalOpen={setIsModalOpen}
+              />
+            ))),
       ],
       innerClassNames: {
         wrapper: styles.toDoPanel,
@@ -120,26 +259,45 @@ export default function TaskList() {
       key: 'toDo',
     },
     {
-      header: <HeaderComponent title="IN PROGRESS" totalTaskCount={10} />,
-      children: (
-        <ChildComponent title="Task 2" dueDate="2021-01-01" status="In Progress" category="Work" />
-      ),
-      innerClassNames: {
-        wrapper: styles.inProgressPanel,
-      },
+      header: <HeaderComponent title="IN PROGRESS" totalTaskCount={inProgressTasks.length} />,
+      children:
+        inProgressTasks.length === 0
+          ? [<EmptyTaskList status="In Progress" />]
+          : inProgressTasks.map((task) => (
+              <ChildComponent
+                key={task.id}
+                task={task}
+                handleDeleteTask={handleDeleteTask}
+                setElementData={setElementData}
+                setIsModalOpen={setIsModalOpen}
+              />
+            )),
       key: 'inProgress',
     },
     {
-      header: <HeaderComponent title="Completed" totalTaskCount={10} />,
-      children: (
-        <ChildComponent title="Task 3" dueDate="2021-01-01" status="Completed" category="Work" />
-      ),
+      header: <HeaderComponent title="Completed" totalTaskCount={completedTasks.length} />,
+      children:
+        completedTasks.length === 0
+          ? [<EmptyTaskList status="Completed" />]
+          : completedTasks.map((task) => (
+              <ChildComponent
+                key={task.id}
+                task={task}
+                handleDeleteTask={handleDeleteTask}
+                setElementData={setElementData}
+                setIsModalOpen={setIsModalOpen}
+              />
+            )),
       innerClassNames: {
         wrapper: styles.completedPanel,
       },
       key: 'completed',
     },
   ];
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className={styles.container}>

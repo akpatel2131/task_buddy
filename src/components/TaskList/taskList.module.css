@@ -118,11 +118,23 @@
   border: 1px solid var(--color-gray);
   padding: var(--size-4) var(--size-10);
   border-radius: var(--size-16);
+  position: relative;
 }
 
+.datePickerContainer {
+  position: absolute;
+  left: 0;
+  top: calc(100% + var(--size-4));
+  z-index: 1;
+}
+
+.formDataValue,
 .addCategoryButton {
   display: flex;
   align-items: center;
+}
+
+.addCategoryButton {
   padding: var(--size-6);
   border-radius: var(--size-20);
   border: 1px solid var(--color-gray);
@@ -144,6 +156,10 @@
   fill: var(--color-green);
 }
 
+.completeText {
+  text-decoration: line-through;
+}
+
 .addDateIcon {
   width: var(--size-16);
   height: var(--size-16);
@@ -161,6 +177,16 @@
 .taskText {
   display: flex;
   align-items: center;
+}
+
+.emptyTaskList {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  font-size: var(--size-16);
+  font-weight: 600;
+  color: var(--color-gray);
 }
 
 .toDoPanel {

@@ -42,7 +42,10 @@ export default function Tooltip({
   return (
     <div className={clsx(styles.tooltipContainer, className)} ref={tooltipRef}>
       <div
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={(event) => {
+          setIsOpen(!isOpen);
+          event.stopPropagation();
+        }}
         className={clsx(styles.trigger, innerClassName?.trigger)}
       >
         {children}
@@ -50,7 +53,14 @@ export default function Tooltip({
       {isOpen && (
         <div className={clsx(styles.tooltipContent, innerClassName?.tooltipContent)}>
           {options.map((option, index) => (
-            <button key={index} className={styles.option} onClick={() => handleOptionClick(option)}>
+            <button
+              key={index}
+              className={styles.option}
+              onClick={(event) => {
+                handleOptionClick(option);
+                event.stopPropagation();
+              }}
+            >
               {option}
             </button>
           ))}

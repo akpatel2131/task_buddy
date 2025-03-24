@@ -14,11 +14,6 @@
   border: none;
 
   transition: 0.3s ease-in-out;
-
-  /* stylelint-disable-next-line csstools/media-use-custom-media
-  @media screen and (prefers-reduced-motion: reduce) {
-    transition: none;
-  } */
 }
 
 .headerContainer {
@@ -45,7 +40,7 @@
 }
 
 .content {
-  padding: var(--size-8);
+  padding: var(--size-12) 0;
   font-size: var(--size-8);
 
   & input {

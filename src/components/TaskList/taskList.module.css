@@ -6,6 +6,14 @@
   width: var(--full-size);
 }
 
+.headerContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+  font-size: var(--size-14);
+  font-weight: 500;
+}
+
 .addTaskContainer {
   display: flex;
   flex-direction: column;
@@ -15,6 +23,20 @@
 .taskListHeader {
   display: grid;
   grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+  padding: var(--size-4) var(--size-8);
+}
+
+.taskListHeaderButton {
+  width: var(--full-size);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .taskListHeader button {

@@ -44,7 +44,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   const handleStatusChange = useCallback(
     async (value: string) => {
-      const statusMap: Record<string, string> = {
+      const statusMap: Record<string, 'TODO' | 'IN-PROGRESS' | 'COMPLETED'> = {
         'To-Do': 'TODO',
         'In Progress': 'IN-PROGRESS',
         Completed: 'COMPLETED',
@@ -52,7 +52,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
       const data = {
         ...task,
-        status: statusMap[value] || value,
+        status: statusMap[value] || (value as 'TODO' | 'IN-PROGRESS' | 'COMPLETED'),
       };
 
       if (task.id) await updateTask(task.id, data);
@@ -116,9 +116,10 @@ const AddTaskForm: React.FC = () => {
   const { createTask, user } = useTaskContext();
   const defaultFormData = {
     name: '',
+    description: '',
     due_date: '',
-    status: '',
-    category: '',
+    status: 'TODO' as const,
+    category: 'Work' as const,
     activity: [],
     userId: user?.uid || '',
   };

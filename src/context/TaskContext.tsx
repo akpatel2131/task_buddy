@@ -13,19 +13,20 @@ import { db } from '../config/firebase';
 import { useEffectOnce } from 'react-use';
 
 interface Activity {
-  created_date: string;
-  name: string;
-  activity_text: string;
+  action: string;
+  timestamp: string;
 }
 
 export interface Task {
   id?: string;
   name: string;
+  description: string;
   due_date: string;
-  status: string;
-  category: string;
+  status: 'TODO' | 'IN-PROGRESS' | 'COMPLETED';
+  category: 'Work' | 'Personal';
   activity: Activity[];
   userId: string;
+  attachments?: File[];
 }
 
 interface User {
@@ -100,9 +101,8 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         userId: user.uid,
         activity: [
           {
-            created_date: new Date().toISOString(),
-            name: user.displayName || 'Unknown',
-            activity_text: 'Task created',
+            action: 'Task created',
+            timestamp: new Date().toISOString(),
           },
         ],
       };
@@ -123,24 +123,13 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setLoading(true);
     try {
       const taskRef = doc(db, 'tasks', taskId);
-      const updatedActivity = {
-        created_date: new Date().toISOString(),
-        name: user.displayName || 'Unknown',
-        activity_text: 'Task updated',
-      };
-
-      await updateDoc(taskRef, {
-        ...updates,
-        activity: [...(tasks.find((t) => t.id === taskId)?.activity || []), updatedActivity],
-      });
-
+      await updateDoc(taskRef, updates);
       setTasks((prev) =>
         prev.map((task) =>
           task.id === taskId
             ? {
                 ...task,
                 ...updates,
-                activity: [...task.activity, updatedActivity],
               }
             : task
         )

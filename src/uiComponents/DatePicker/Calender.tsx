@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import { format } from 'date-fns';
-import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
-import clsx from 'clsx';
 import 'react-day-picker/dist/style.css';
 import styles from './calendar.module.css';
 

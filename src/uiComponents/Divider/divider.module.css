@@ -6,3 +6,11 @@
   margin: var(--size-12) 0;
   height: 1px;
 }
+
+.isVertical {
+  align-self: stretch;
+  width: 1px;
+  min-height: 100%;
+  height: auto;
+  margin: 0;
+}

@@ -166,6 +166,7 @@ const AddTaskForm: React.FC = () => {
     category: '',
     activity: [],
     userId: user?.uid || '',
+    attachments: [],
   };
 
   const [formData, setFormData] = useState<Task>(defaultFormData);
@@ -324,7 +325,11 @@ const TaskList: React.FC<TaskListProps> = ({
   const collapseItems = [
     {
       header: <HeaderComponent title="Todo" totalTaskCount={toDoTasks.length} />,
-      children: [<AddTaskForm key="add-task" />, <Divider />, ...renderTaskItems(toDoTasks)],
+      children: [
+        ...[largeScreen && <AddTaskForm key="add-task" />],
+        ...[largeScreen && <Divider />],
+        ...renderTaskItems(toDoTasks),
+      ],
       innerClassNames: { wrapper: styles.toDoPanel },
       key: 'toDo',
     },

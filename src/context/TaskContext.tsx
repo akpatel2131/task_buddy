@@ -24,12 +24,15 @@ export interface Task {
   due_date: string;
   status: 'TODO' | 'IN-PROGRESS' | 'COMPLETED' | string;
   category: 'Work' | 'Personal' | string;
-  activity: Activity[];
+  activity: Array<{
+    action: string;
+    timestamp: string;
+  }>;
   userId: string;
-  attachments?: File[];
+  attachments?: (File | string)[];
 }
 
-interface User {
+export interface User {
   uid: string;
   email: string | null;
   displayName: string | null;

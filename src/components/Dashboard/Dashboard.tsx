@@ -13,31 +13,28 @@ import styles from './dashboard.module.css';
 import loginTask from '../../image/loginTask.svg';
 import TaskList from '../TaskList/TaskList';
 import TaskBoard from '../TaskBoard/TaskBoard';
-import { useTaskContext, Task } from '../../context/TaskContext';
+import { useTaskContext, Task, User } from '../../context/TaskContext';
 import TaskModal from '../TaskModal/TaskModal';
 import list_icon from '../../image/list_icon.svg';
 import board_icon from '../../image/board_icon.svg';
-import { useWindowSize } from 'react-use';
+import { useEffectOnce, useWindowSize } from 'react-use';
 
 type ViewType = 'list' | 'board';
 type FilterType = 'TODAY' | 'UPCOMING' | 'OVERDUE' | '';
 
 interface HeaderProps {
-  user: {
-    photoURL: string;
-    displayName: string;
-  };
+  user: User;
   onLogout: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ user, onLogout }) => (
+const Header: React.FC<HeaderProps> = ({ user }) => (
   <header className={styles.header}>
     <div className={styles.logo}>
       <img src={loginTask} alt="TaskBuddy Logo" />
       <span>TaskBuddy</span>
     </div>
     <div className={styles.userProfile}>
-      <div className={styles.userAvatar}>{user.displayName.charAt(0).toUpperCase()}</div>
+      <div className={styles.userAvatar}>{user.displayName?.charAt(0).toUpperCase()}</div>
       <span>{user.displayName}</span>
     </div>
   </header>
@@ -140,16 +137,22 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
 const Dashboard: React.FC = () => {
   const { tasks, deleteTask } = useTaskContext();
+  const { user } = useTaskContext();
   const navigate = useNavigate();
   const [tabOption, setTabOption] = useState<ViewType>('list');
   const [category, setCategory] = useState<string>('');
   const [dueDate, setDueDate] = useState<FilterType>('');
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [elementData, setElementData] = useState<Task | undefined>();
   const [data, setData] = useState<Task[]>(tasks);
   const { width } = useWindowSize();
   const largeScreen = width > 768;
+
+  useEffectOnce(() => {
+    if (!localStorage.getItem('user')) {
+      navigate('/login');
+    }
+  });
 
   const handleDeleteTask = (taskId: string) => {
     deleteTask(taskId);
@@ -201,6 +204,10 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     handleFilter();
   }, [handleFilter]);
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <>

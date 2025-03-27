@@ -3,8 +3,8 @@ import { IconX } from '@tabler/icons-react';
 import styles from './fileUpload.module.css';
 
 interface FileUploadProps {
-  files: File[];
-  onFilesChange: (files: File[]) => void;
+  files: (string | File)[];
+  onFilesChange: (files: (string | File)[]) => void;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({ files, onFilesChange }) => {
@@ -85,7 +85,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, onFilesChange }) => {
         <div className={styles.fileList}>
           {files.map((file, index) => (
             <div key={index} className={styles.fileItem}>
-              <span>{file.name}</span>
+              <span>{file instanceof File ? file.name : file}</span>
               <button type="button" onClick={() => removeFile(index)} className={styles.removeFile}>
                 <IconX size={16} />
               </button>

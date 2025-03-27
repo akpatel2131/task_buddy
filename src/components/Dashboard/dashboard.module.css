@@ -217,3 +217,55 @@
   padding: var(--size-8);
   font-size: var(--size-16);
 }
+
+.userAvatar {
+  width: var(--size-32);
+  height: var(--size-32);
+  background-color: var(--color-red);
+  color: var(--color-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: var(--size-16);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0;
+  }
+
+  .filterSection {
+    flex-direction: column;
+    padding: 0 var(--size-16);
+    align-items: flex-start;
+  }
+
+  .filterGroup,
+  .searchBox {
+    width: var(--full-size);
+  }
+
+  .searchBox input {
+    width: var(--full-size);
+  }
+
+  .filterGroup:first-child {
+    justify-content: flex-end;
+  }
+
+  .header {
+    background-color: var(--color-light-pink-2);
+    margin-bottom: var(--size-20);
+    padding: var(--size-16);
+  }
+
+  .userProfile span {
+    display: none;
+  }
+
+  .logo img {
+    display: none;
+  }
+}

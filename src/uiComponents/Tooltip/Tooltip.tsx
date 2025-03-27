@@ -1,14 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import styles from './tooltip.module.css';
 import clsx from 'clsx';
+import { isString } from 'lodash';
 
 interface TooltipProps {
-  options: string[];
+  options:
+    | {
+        title: string;
+        image: string;
+        className: string;
+      }[]
+    | string[];
   onSelect?: (option: string) => void;
   className?: string;
   innerClassName?: {
     trigger?: string;
     tooltipContent?: string;
+    option?: string;
   };
   children: React.ReactNode;
 }
@@ -55,13 +63,26 @@ export default function Tooltip({
           {options.map((option, index) => (
             <button
               key={index}
-              className={styles.option}
+              className={clsx(styles.option, innerClassName?.option, {
+                [!isString(option) ? option.className : '']: true,
+              })}
               onClick={(event) => {
-                handleOptionClick(option);
+                if (isString(option)) {
+                  handleOptionClick(option);
+                } else {
+                  handleOptionClick(option.title);
+                }
                 event.stopPropagation();
               }}
             >
-              {option}
+              {isString(option) ? (
+                option
+              ) : (
+                <>
+                  <img src={option.image} alt={option.title} />
+                  <span className={option.className}>{option.title}</span>
+                </>
+              )}
             </button>
           ))}
         </div>

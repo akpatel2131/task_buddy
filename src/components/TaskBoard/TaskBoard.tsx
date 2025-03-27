@@ -4,6 +4,7 @@ import { IconDots } from '@tabler/icons-react';
 import Tooltip from '../../uiComponents/Tooltip/Tooltip';
 import { Task, useTaskContext } from '../../context/TaskContext';
 import Loader from '../../uiComponents/Loader/Loader';
+import { actionOptions } from '../TaskList/TaskList';
 
 type TaskStatus = 'TODO' | 'IN-PROGRESS' | 'COMPLETED';
 
@@ -14,11 +15,11 @@ interface TaskCardProps {
 }
 
 const TaskCard: React.FC<TaskCardProps> = ({ task, onDelete, onEdit }) => (
-  <div className={styles.taskCard}>
+  <button className={styles.taskCard} onClick={() => onEdit(task)}>
     <div className={styles.taskHeader}>
       <h3 className={styles.taskTitle}>{task.name}</h3>
       <Tooltip
-        options={['Edit', 'Delete']}
+        options={actionOptions}
         onSelect={(option) => {
           if (option === 'Delete' && task.id) {
             onDelete(task.id);
@@ -38,7 +39,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onDelete, onEdit }) => (
       <span className={styles.category}>{task.category}</span>
       <span className={styles.dueDate}>{task.due_date}</span>
     </div>
-  </div>
+  </button>
 );
 
 interface TaskColumnProps {

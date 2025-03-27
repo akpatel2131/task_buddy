@@ -96,11 +96,6 @@
   padding: 0 var(--size-8);
 }
 
-.menuTooltipContent {
-  left: auto;
-  right: 0;
-}
-
 .addButton,
 .addTaskButton {
   display: flex;
@@ -221,4 +216,64 @@
 
 .completedPanel {
   background-color: var(--color-light-green);
+}
+
+.selected {
+  background-color: rgba(var(--color-purple-rgb), 0.1) !important;
+  border-left: 3px solid var(--color-purple) !important;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-border);
+  border-radius: 4px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.checkbox:hover {
+  border-color: var(--color-purple);
+}
+
+.checked {
+  background-color: var(--color-purple);
+  border-color: var(--color-purple);
+  color: var(--color-white);
+}
+
+.menuTooltipContent {
+  left: auto !important;
+  right: 0;
+}
+
+.editIcon,
+.deleteIcon {
+  display: flex;
+  justify-content: flex-start;
+  font-size: var(--size-16);
+  gap: var(--size-4);
+  text-transform: capitalize;
+}
+
+.deleteIcon {
+  color: var(--color-red);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--size-16);
+  }
+
+  .taskListHeader {
+    grid-template-columns: 1fr;
+  }
+
+  .taskListHeaderTitle span {
+    text-align: left;
+  }
 }

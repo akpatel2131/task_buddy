@@ -39,7 +39,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ selectedDate, onChange, minDate
             mode="single"
             selected={selectedDate ? new Date(selectedDate) : undefined}
             onSelect={handleDaySelect}
-            fromDate={minDate ? new Date(minDate) : undefined}
+            disabled={(date) => (minDate ? date < new Date(minDate) : false)}
             captionLayout="dropdown"
             className={styles.root}
           />

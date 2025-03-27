@@ -3,6 +3,7 @@
   --color-purple: #6941c6;
   --color-pink: #7b1984;
   --color-light-pink: #fac3ff;
+  --color-light-pink-2: #faeefc;
   --color-dark: #101828;
   --color-gray: #475467;
   --color-white: #ffffff;
@@ -14,8 +15,11 @@
   --color-border: #d0d5dd;
   --color-placeholder: #a0a0a0;
   --color-black: #000000;
+  --color-black-light: rgba(141, 138, 138, 0.14);
   --color-light-green: #ceffcc;
   --color-green: #008000;
+  --color-red: #ff0000;
+  --color-red-light: rgba(255, 53, 53, 0.14);
 
   /* Sizes */
   --size-4: 4px;

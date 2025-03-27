@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 100;
 }
 
 .formContainer {
@@ -141,6 +141,15 @@ form {
   margin-left: auto;
 }
 
+.dateInput {
+  padding: var(--size-8) var(--size-12);
+  border: 1px solid var(--color-border);
+  border-radius: var(--size-8);
+  font-size: var(--size-14);
+  color: var(--color-dark);
+  width: var(--full-size);
+}
+
 .formRow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -156,7 +165,7 @@ form {
 .categoryButton {
   padding: var(--size-8) var(--size-16);
   border: 1px solid var(--color-border);
-  border-radius: var(--size-8);
+  border-radius: var(--size-16);
   background-color: var(--color-white);
   color: var(--color-dark);
   cursor: pointer;
@@ -164,9 +173,9 @@ form {
 }
 
 .categoryButton.active {
-  background-color: var(--color-purple);
+  background-color: var(--color-pink);
   color: var(--color-white);
-  border-color: var(--color-purple);
+  border: none;
 }
 
 .statusSelect {
@@ -178,84 +187,6 @@ form {
   background-color: var(--color-white);
 }
 
-.dropZone {
-  padding: var(--size-16);
-  border: 2px dashed var(--color-border);
-  border-radius: var(--size-8);
-  text-align: center;
-  color: var(--color-gray);
-  transition: all 0.2s ease;
-  position: relative;
-  min-height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dropZone.dragging {
-  border-color: var(--color-purple);
-  background-color: var(--color-light-purple);
-}
-
-.dropZoneContent {
-  display: flex;
-  align-items: center;
-  gap: var(--size-4);
-}
-
-.fileInput {
-  display: none;
-}
-
-.fileList {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-8);
-}
-
-.fileItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--size-8) var(--size-12);
-  background-color: var(--color-light-gray-2);
-  border-radius: var(--size-4);
-}
-
-.fileItem span {
-  color: var(--color-dark);
-  font-size: var(--size-14);
-}
-
-.removeFile {
-  background: none;
-  border: none;
-  color: var(--color-gray);
-  cursor: pointer;
-  padding: var(--size-2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--size-4);
-  transition: all 0.2s ease;
-}
-
-.removeFile:hover {
-  background-color: var(--color-light-gray);
-  color: var(--color-dark);
-}
-
-.uploadLink {
-  color: var(--color-purple);
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.uploadLink:hover {
-  text-decoration: underline;
-}
-
 .activitySection {
   padding: var(--size-16) 0;
   background-color: var(--color-light);
@@ -263,8 +194,8 @@ form {
   flex: 1;
   overflow-y: scroll;
   max-height: 60vh;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE & Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .activitySection h3 {
@@ -331,4 +262,23 @@ form {
 
 .activityDivider {
   margin: 0;
+}
+
+@media (max-width: 768px) {
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: var(--size-8);
+  }
+
+  .statusSelect {
+    width: 50%;
+  }
+
+  .categoryButtons {
+    width: 70%;
+  }
+
+  .formContainer {
+    flex-direction: column;
+  }
 }

@@ -22,8 +22,8 @@ export interface Task {
   name: string;
   description: string;
   due_date: string;
-  status: 'TODO' | 'IN-PROGRESS' | 'COMPLETED';
-  category: 'Work' | 'Personal';
+  status: 'TODO' | 'IN-PROGRESS' | 'COMPLETED' | string;
+  category: 'Work' | 'Personal' | string;
   activity: Activity[];
   userId: string;
   attachments?: File[];

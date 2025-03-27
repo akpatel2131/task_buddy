@@ -1,0 +1,149 @@
+.selectionBar {
+  position: fixed;
+  bottom: var(--size-20);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-dark);
+  border-radius: var(--size-14);
+  padding: var(--size-14);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 var(--size-4) var(--size-12) rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  width: auto;
+  min-width: 350px;
+  gap: var(--size-24);
+}
+
+.selectionInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--size-12);
+  color: var(--color-white);
+  font-weight: 500;
+  padding: var(--size-8) var(--size-16);
+  border: 1px solid var(--color-white);
+  border-radius: var(--size-16);
+  font-size: var(--size-16);
+}
+
+.clearButton {
+  background: transparent;
+  border: none;
+  color: var(--color-white);
+  width: var(--size-24);
+  height: var(--size-24);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.2s;
+}
+
+.clearButton:hover {
+  background: var(--color-white-10);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--size-12);
+}
+
+.statusButton {
+  background-color: var(--color-black-light);
+  border: 1px solid var(--color-white);
+  color: var(--color-white);
+  padding: var(--size-8) var(--size-24);
+  border-radius: var(--size-12);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: var(--size-14);
+}
+
+.deleteButton {
+  background-color: var(--color-red-light);
+  border: 1px solid var(--color-red);
+  color: var(--color-red);
+  padding: var(--size-8) var(--size-24);
+  border-radius: var(--size-12);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: var(--size-14);
+}
+
+.tooltipContent {
+  bottom: calc(100% + var(--size-20));
+  top: auto;
+  background-color: var(--color-dark);
+}
+
+.option {
+  color: var(--color-white);
+}
+
+.statusContainer {
+  position: relative;
+}
+
+.statusDropdown {
+  background-color: var(--color-dark);
+  border-radius: var(--size-12);
+  overflow: hidden;
+  min-width: var(--size-160);
+  box-shadow: 0 var(--size-4) var(--size-12) rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--color-white-20);
+}
+
+.statusDropdown button {
+  display: block;
+  width: 100%;
+  padding: var(--size-12) var(--size-16);
+  text-align: center;
+  border: none;
+  background: none;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-weight: 500;
+  font-size: var(--size-14);
+}
+
+.statusDropdown button:hover {
+  background-color: var(--color-white-10);
+}
+
+.statusDropdown button + button {
+  border-top: 1px solid var(--color-white-20);
+}
+
+@media (max-width: 768px) {
+  .selectionInfo {
+    font-size: var(--size-12);
+    padding: var(--size-10);
+  }
+
+  .clearButton {
+    width: var(--size-16);
+    height: var(--size-16);
+  }
+
+  .selectionBar {
+    gap: var(--size-10);
+  }
+
+  .statusButton {
+    font-size: var(--size-12);
+    padding: var(--size-6) var(--size-16);
+  }
+
+  .deleteButton {
+    font-size: var(--size-12);
+    padding: var(--size-6) var(--size-16);
+  }
+}

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Collapse from '../../uiComponents/Collapse/Collapse';
 import Divider from '../../uiComponents/Divider/Divider';
 import styles from './taskList.module.css';
@@ -14,6 +14,10 @@ import clsx from 'clsx';
 import { Task, useTaskContext } from '../../context/TaskContext';
 import Calender from '../../uiComponents/DatePicker/Calender';
 import Loader from '../../uiComponents/Loader/Loader';
+import TaskSelection from '../TaskSelection/TaskSelection';
+import delete_icon from '../../image/delete_icon.svg';
+import edit_icon from '../../image/edit_icon.svg';
+import { useWindowSize } from 'react-use';
 
 interface HeaderProps {
   title: string;
@@ -32,15 +36,45 @@ interface TaskItemProps {
   handleDeleteTask: (taskId: string) => void;
   setElementData: (task: Task) => void;
   setIsModalOpen: (isOpen: boolean) => void;
+  selectedTasks: Task[];
+  setSelectedTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  isSelectionMode: boolean;
 }
+
+export const actionOptions = [
+  {
+    title: 'Edit',
+    image: edit_icon,
+    className: styles.editIcon,
+  },
+  {
+    title: 'Delete',
+    image: delete_icon,
+    className: styles.deleteIcon,
+  },
+];
 
 const TaskItem: React.FC<TaskItemProps> = ({
   task,
   handleDeleteTask,
   setElementData,
   setIsModalOpen,
+  selectedTasks,
+  setSelectedTasks,
 }) => {
   const { updateTask } = useTaskContext();
+  const isSelected = selectedTasks.some((selectedTask) => selectedTask.id === task.id);
+  const { width } = useWindowSize();
+  const largeScreen = width > 768;
+
+  const toggleTaskSelection = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    if (isSelected) {
+      setSelectedTasks(selectedTasks.filter((selectedTask) => selectedTask.id !== task.id));
+    } else {
+      setSelectedTasks([...selectedTasks, task]);
+    }
+  };
 
   const handleStatusChange = useCallback(
     async (value: string) => {
@@ -62,7 +96,9 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   return (
     <button
-      className={clsx(styles.taskListHeader, styles.taskListHeaderButton)}
+      className={clsx(styles.taskListHeader, styles.taskListHeaderButton, {
+        [styles.selected]: isSelected,
+      })}
       onClick={(event) => {
         event.stopPropagation();
         setElementData(task);
@@ -70,7 +106,11 @@ const TaskItem: React.FC<TaskItemProps> = ({
       }}
     >
       <div className={styles.taskListHeaderTitle}>
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          onClick={(e) => toggleTaskSelection(e)}
+          checked={selectedTasks.some((selectedTask) => selectedTask.id === task.id)}
+        />
         <IconCircleCheckFilled
           className={clsx(styles.checkIcon, styles.inProgressIcon, {
             [styles.completedIcon]: task.status === 'COMPLETED',
@@ -80,33 +120,37 @@ const TaskItem: React.FC<TaskItemProps> = ({
           {task.name}
         </span>
       </div>
-      <div className={styles.taskText}>{task.due_date}</div>
-      <Tooltip
-        options={['To-Do', 'In Progress', 'Completed']}
-        onSelect={handleStatusChange}
-        innerClassName={{ trigger: styles.trigger }}
-      >
-        <button className={styles.statusButton}>{task.status}</button>
-      </Tooltip>
-      <div className={styles.taskText}>{task.category}</div>
-      <Tooltip
-        options={['Edit', 'Delete']}
-        className={styles.menuButton}
-        innerClassName={{ tooltipContent: styles.menuTooltipContent }}
-        onSelect={(option) => {
-          if (option === 'Delete' && task.id) {
-            handleDeleteTask(task.id);
-          }
-          if (option === 'Edit') {
-            setElementData(task);
-            setIsModalOpen(true);
-          }
-        }}
-      >
-        <button>
-          <IconDots stroke={1.5} />
-        </button>
-      </Tooltip>
+      {largeScreen && (
+        <>
+          <div className={styles.taskText}>{task.due_date}</div>
+          <Tooltip
+            options={['To-Do', 'In Progress', 'Completed']}
+            onSelect={handleStatusChange}
+            innerClassName={{ trigger: styles.trigger }}
+          >
+            <button className={styles.statusButton}>{task.status}</button>
+          </Tooltip>
+          <div className={styles.taskText}>{task.category}</div>
+          <Tooltip
+            options={actionOptions}
+            className={styles.menuButton}
+            innerClassName={{ tooltipContent: styles.menuTooltipContent }}
+            onSelect={(option) => {
+              if (option === 'Delete' && task.id) {
+                handleDeleteTask(task.id);
+              }
+              if (option === 'Edit') {
+                setElementData(task);
+                setIsModalOpen(true);
+              }
+            }}
+          >
+            <button>
+              <IconDots stroke={1.5} />
+            </button>
+          </Tooltip>
+        </>
+      )}
     </button>
   );
 };
@@ -118,8 +162,8 @@ const AddTaskForm: React.FC = () => {
     name: '',
     description: '',
     due_date: '',
-    status: 'TODO' as const,
-    category: 'Work' as const,
+    status: '',
+    category: '',
     activity: [],
     userId: user?.uid || '',
   };
@@ -235,6 +279,14 @@ const TaskList: React.FC<TaskListProps> = ({
   setIsModalOpen,
 }) => {
   const { loading } = useTaskContext();
+  const [selectedTasks, setSelectedTasks] = useState<Task[]>([]);
+  const isSelectionMode = selectedTasks.length > 0;
+  const { width } = useWindowSize();
+  const largeScreen = width > 768;
+
+  const clearSelection = () => {
+    setSelectedTasks([]);
+  };
 
   const toDoTasks = tasks.filter((task) => task.status === 'TODO');
   const inProgressTasks = tasks.filter((task) => task.status === 'IN-PROGRESS');
@@ -255,16 +307,18 @@ const TaskList: React.FC<TaskListProps> = ({
           />,
         ]
       : taskList.map((task, index) => (
-          <>
+          <React.Fragment key={task.id || index}>
             <TaskItem
-              key={task.id}
               task={task}
               handleDeleteTask={handleDeleteTask}
               setElementData={setElementData}
               setIsModalOpen={setIsModalOpen}
+              selectedTasks={selectedTasks}
+              setSelectedTasks={setSelectedTasks}
+              isSelectionMode={isSelectionMode}
             />
             {taskList.length > index + 1 && <Divider />}
-          </>
+          </React.Fragment>
         ));
 
   const collapseItems = [
@@ -294,14 +348,23 @@ const TaskList: React.FC<TaskListProps> = ({
 
   return (
     <div className={styles.container}>
-      <Divider className={styles.divider} />
-      <div className={styles.taskListHeader}>
-        <div>Task Name</div>
-        <div>Due on</div>
-        <div>Task Status</div>
-        <div>Task Category</div>
-      </div>
+      {largeScreen && (
+        <>
+          <Divider className={styles.divider} />
+          <div className={styles.taskListHeader}>
+            <div>Task Name</div>
+            <div>Due on</div>
+            <div>Task Status</div>
+            <div>Task Category</div>
+          </div>
+        </>
+      )}
       <Collapse items={collapseItems} innerClassNames={{ container: styles.collapseContainer }} />
+      <TaskSelection
+        selectedTasks={selectedTasks}
+        setSelectedTasks={setSelectedTasks}
+        onClearSelection={clearSelection}
+      />
     </div>
   );
 };

@@ -89,6 +89,18 @@
     display: none;
   }
 
+  .loginContainer {
+    flex-direction: column;
+  }
+
+  .logo {
+    justify-content: center;
+  }
+
+  .subtitle {
+    text-align: center;
+  }
+
   .loginContent {
     max-width: var(--full-size);
   }
@@ -105,7 +117,8 @@
   }
 
   .subtitle {
-    font-size: var(--size-16);
+    font-size: var(--size-14);
+    font-weight: 500;
     line-height: var(--size-24);
   }
 }

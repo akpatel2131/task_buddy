@@ -39,7 +39,3 @@
   text-transform: uppercase;
   text-align: left;
 }
-
-.option:hover {
-  background-color: var(--color-light-gray);
-}

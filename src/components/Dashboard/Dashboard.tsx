@@ -6,7 +6,6 @@ import {
   IconLayoutList,
   IconLayoutKanban,
   IconSearch,
-  IconPlus,
   IconChevronDown,
   IconLogout,
 } from '@tabler/icons-react';
@@ -16,6 +15,9 @@ import TaskList from '../TaskList/TaskList';
 import TaskBoard from '../TaskBoard/TaskBoard';
 import { useTaskContext, Task } from '../../context/TaskContext';
 import TaskModal from '../TaskModal/TaskModal';
+import list_icon from '../../image/list_icon.svg';
+import board_icon from '../../image/board_icon.svg';
+import { useWindowSize } from 'react-use';
 
 type ViewType = 'list' | 'board';
 type FilterType = 'TODAY' | 'UPCOMING' | 'OVERDUE' | '';
@@ -35,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => (
       <span>TaskBuddy</span>
     </div>
     <div className={styles.userProfile}>
-      <img src={user.photoURL} alt={user.displayName} />
+      <div className={styles.userAvatar}>{user.displayName.charAt(0).toUpperCase()}</div>
       <span>{user.displayName}</span>
     </div>
   </header>
@@ -54,14 +56,14 @@ const ViewToggle: React.FC<ViewToggleProps> = ({ view, onViewChange, onLogout })
         className={clsx(styles.viewButton, { [styles.active]: view === 'list' })}
         onClick={() => onViewChange('list')}
       >
-        <IconLayoutList size={20} />
+        <img src={list_icon} alt="list" />
         List
       </button>
       <button
         className={clsx(styles.viewButton, { [styles.active]: view === 'board' })}
         onClick={() => onViewChange('board')}
       >
-        <IconLayoutKanban size={20} />
+        <img src={board_icon} alt="board" />
         Board
       </button>
     </div>
@@ -88,39 +90,53 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   onDueDateChange,
   onSearch,
   onAddTask,
-}) => (
-  <div className={styles.filterSection}>
-    <div className={styles.filterGroup}>
-      <div className={styles.filterGroupTitle}>Filter by : </div>
-      <div className={styles.select}>
-        <select value={category} onChange={(e) => onCategoryChange(e.target.value)}>
-          <option value="">ALL</option>
-          <option value="Work">WORK</option>
-          <option value="Personal">PERSONAL</option>
-        </select>
-        <IconChevronDown size={20} className={styles.selectIcon} />
+}) => {
+  const { width } = useWindowSize();
+  const largeScreen = width > 768;
+
+  return (
+    <div className={styles.filterSection}>
+      {!largeScreen && (
+        <div className={styles.filterGroup}>
+          <button className={styles.addTaskButton} onClick={onAddTask}>
+            ADD TASK
+          </button>
+        </div>
+      )}
+      <div className={styles.filterGroup}>
+        <div className={styles.filterGroupTitle}>Filter by : </div>
+        <div className={styles.select}>
+          <select value={category} onChange={(e) => onCategoryChange(e.target.value)}>
+            <option value="">ALL</option>
+            <option value="Work">WORK</option>
+            <option value="Personal">PERSONAL</option>
+          </select>
+          <IconChevronDown size={20} className={styles.selectIcon} />
+        </div>
+        <div className={styles.select}>
+          <select value={dueDate} onChange={(e) => onDueDateChange(e.target.value as FilterType)}>
+            <option value="">ALL</option>
+            <option value="TODAY">TODAY</option>
+            <option value="UPCOMING">UPCOMING</option>
+            <option value="OVERDUE">OVERDUE</option>
+          </select>
+          <IconChevronDown size={20} className={styles.selectIcon} />
+        </div>
       </div>
-      <div className={styles.select}>
-        <select value={dueDate} onChange={(e) => onDueDateChange(e.target.value as FilterType)}>
-          <option value="">ALL</option>
-          <option value="TODAY">TODAY</option>
-          <option value="UPCOMING">UPCOMING</option>
-          <option value="OVERDUE">OVERDUE</option>
-        </select>
-        <IconChevronDown size={20} className={styles.selectIcon} />
+      <div className={styles.filterGroup}>
+        <div className={styles.searchBox}>
+          <IconSearch size={20} className={styles.searchIcon} />
+          <input type="search" placeholder="Search" onChange={(e) => onSearch(e.target.value)} />
+        </div>
+        {largeScreen && (
+          <button className={styles.addTaskButton} onClick={onAddTask}>
+            ADD TASK
+          </button>
+        )}
       </div>
     </div>
-    <div className={styles.filterGroup}>
-      <div className={styles.searchBox}>
-        <IconSearch size={20} className={styles.searchIcon} />
-        <input type="search" placeholder="Search" onChange={(e) => onSearch(e.target.value)} />
-      </div>
-      <button className={styles.addTaskButton} onClick={onAddTask}>
-        ADD TASK
-      </button>
-    </div>
-  </div>
-);
+  );
+};
 
 const Dashboard: React.FC = () => {
   const { tasks, deleteTask } = useTaskContext();
@@ -132,6 +148,8 @@ const Dashboard: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [elementData, setElementData] = useState<Task | undefined>();
   const [data, setData] = useState<Task[]>(tasks);
+  const { width } = useWindowSize();
+  const largeScreen = width > 768;
 
   const handleDeleteTask = (taskId: string) => {
     deleteTask(taskId);
@@ -188,7 +206,9 @@ const Dashboard: React.FC = () => {
     <>
       <div className={styles.container}>
         <Header user={user} onLogout={handleLogout} />
-        <ViewToggle view={tabOption} onViewChange={setTabOption} onLogout={handleLogout} />
+        {largeScreen && (
+          <ViewToggle view={tabOption} onViewChange={setTabOption} onLogout={handleLogout} />
+        )}
         <FilterSection
           category={category}
           dueDate={dueDate}
